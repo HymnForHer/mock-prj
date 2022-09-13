@@ -11,8 +11,6 @@
     - name: rm container p80
       shell: docker rm -f `docker ps -q --filter "publish=8085"`
       when: val.stdout != ""
-    - name: Docker rmi
-      shell: "docker rmi -f `docker images | grep 'hymn208' | awk '{ print $3 }'`"
     - name: Docker pull
       shell: 'docker pull "{{dockerRegis}}":"{{dockerVer}}"'
     - name: Docker run
