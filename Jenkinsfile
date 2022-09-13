@@ -62,7 +62,7 @@ pipeline{
             }
             steps{
                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -f Dockerfile ."
-                withCredentials([usernamePassword(credentialsId: 'dockerRegis', 
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
