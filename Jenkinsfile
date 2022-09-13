@@ -15,7 +15,7 @@ pipeline{
             }
             steps{
                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -f Dockerfile ."
-                withCredentials([usernamePassword(credentialsId: 'dockerRegis', 
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
@@ -32,17 +32,25 @@ pipeline{
                  expression { GITBRANCH == "dev" }
             }
             steps {
-                ansiblePlaybook(
-                    credentialsId: 'TokyoKey',
-                    disableHostKeyChecking: true,
-                    installation : "Ansible",
-                    playbook: 'mainTest.yml',
-                    inventory: 'hosts',
-                    become: 'yes',
-                    extraVars: [
-                        dockerVer: "${DOCKER_TAG}"
-                    ]
-                )
+                withCredentials([usernamePassword(credentialsId: 'dockerRedockergis', 
+                                                  usernameVariable: 'DOCKER_USER' , 
+                                                  passwordVariable: 'DOCKER_PASS')]) 
+                {
+                    ansiblePlaybook
+                    (
+                        credentialsId: 'TokyoKey',
+                        disableHostKeyChecking: true,
+                        installation : "Ansible",
+                        playbook: 'mainTest.yml',
+                        inventory: 'hosts',
+                        become: 'yes',
+                        extraVars: [
+                            dockerVer: "${DOCKER_TAG}"
+                            dockerUser: "${DOCKER_USER}"
+                            dockerPasswd: "${DOCKER_PASS}"
+                        ]
+                    )   
+                } 
             }
         }
 
@@ -72,17 +80,25 @@ pipeline{
                  expression { GITBRANCH == "main" }
             }
             steps {
-                ansiblePlaybook(
-                    credentialsId: 'TokyoKey',
-                    disableHostKeyChecking: true,
-                    installation : "Ansible",
-                    playbook: 'mainProd.yml',
-                    inventory: 'hosts',
-                    become: 'yes',
-                    extraVars: [
-                        dockerVer: "${DOCKER_TAG}"
-                    ]
-                )
+                withCredentials([usernamePassword(credentialsId: 'dockerRedockergis', 
+                                                  usernameVariable: 'DOCKER_USER' , 
+                                                  passwordVariable: 'DOCKER_PASS')]) 
+                {
+                    ansiblePlaybook
+                    (
+                        credentialsId: 'TokyoKey',
+                        disableHostKeyChecking: true,
+                        installation : "Ansible",
+                        playbook: 'mainTest.yml',
+                        inventory: 'hosts',
+                        become: 'yes',
+                        extraVars: [
+                            dockerVer: "${DOCKER_TAG}"
+                            dockerUser: "${DOCKER_USER}"
+                            dockerPasswd: "${DOCKER_PASS}"
+                        ]
+                    )   
+                }
             }
         }
     }
