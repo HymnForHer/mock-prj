@@ -1,0 +1,9 @@
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: install update
+      apt:
+        update_cache: yes
+    - name: install Docker
+      shell: 'sudo curl -sSL https://get.docker.com/ | sudo sh'
