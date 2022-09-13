@@ -36,8 +36,7 @@ pipeline{
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
-                    ansiblePlaybook
-                    (
+                    ansiblePlaybook(
                         credentialsId: 'TokyoKey',
                         disableHostKeyChecking: true,
                         installation : "Ansible",
@@ -84,8 +83,7 @@ pipeline{
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
-                    ansiblePlaybook
-                    (
+                    ansiblePlaybook(
                         credentialsId: 'TokyoKey',
                         disableHostKeyChecking: true,
                         installation : "Ansible",
