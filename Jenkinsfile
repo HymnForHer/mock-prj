@@ -87,7 +87,7 @@ pipeline{
                         credentialsId: 'TokyoKey',
                         disableHostKeyChecking: true,
                         installation : "Ansible",
-                        playbook: 'mainTest.yml',
+                        playbook: 'mainProd.yml',
                         inventory: 'hosts',
                         become: 'yes',
                         extraVars: [
