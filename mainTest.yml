@@ -2,6 +2,7 @@
   become: yes
   become_user: root
   tasks:
+    - include_vars: var.yml
     - name: Docker login
       shell: 'docker login -u "{{dockerUser}}" -p "{{dockerPasswd}}"'
     - name: list container p80
