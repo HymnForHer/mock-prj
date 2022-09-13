@@ -1,0 +1,18 @@
+- hosts: test
+  become: yes
+  become_user: root
+  tasks:
+    - name: Docker login
+      shell: 'docker login -u "{{dockerUser}}" -p "{{dockerPasswd}}"'
+    - name: list container p80
+      shell: docker ps -q --filter "publish=8085"
+      register: val
+    - name: rm container p80
+      shell: docker rm -f `docker ps -q --filter "publish=8085"`
+      when: val.stdout != ""
+    - name: Docker rmi
+      shell: "docker rmi -f `docker images | grep 'hymn208' | awk '{ print $3 }'`"
+    - name: Docker pull
+      shell: 'docker pull "{{dockerRegis}}":"{{dockerVer}}"'
+    - name: Docker run
+      shell: 'docker run -d -p 8085:80 "{{dockerRegis}}":"{{dockerVer}}"'
