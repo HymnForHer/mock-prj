@@ -1,0 +1,7 @@
+[prod]
+10.0.0.10  ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+[test]
+10.0.0.248  ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+[all]
+10.0.0.10  ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+10.0.0.248  ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
