@@ -3,6 +3,7 @@ pipeline{
     environment {
         DOCKER_IMAGE="hymn208/mock-phase-2"
         DOCKER_TAG="${GIT_BRANCH.tokenize('/').pop()}-${GIT_COMMIT.substring(0,7)}"
+        GITBRANCH = "${GIT_BRANCH.tokenize('/').pop()}"
     }
     stages{
         stage("Build"){
