@@ -32,7 +32,7 @@ pipeline{
                  expression { GITBRANCH == "dev" }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerRedockergis', 
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
@@ -79,7 +79,7 @@ pipeline{
                  expression { GITBRANCH == "main" }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerRedockergis', 
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
