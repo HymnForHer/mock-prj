@@ -22,12 +22,15 @@ pipeline{
             options {
                 timeout(time: 10, unit: 'MINUTES')
             }
+            when{
+                 expression { GITBRANCH == "dev" }
+            }
             steps {
                 ansiblePlaybook(
                     credentialsId: 'TokyoKey',
                     disableHostKeyChecking: true,
                     installation : "Ansible",
-                    playbook: 'mainTest.yml',
+                    playbook: 'mainProd.yml',
                     inventory: 'hosts',
                     become: 'yes',
                     extraVars: [
