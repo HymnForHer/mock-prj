@@ -44,8 +44,8 @@ pipeline{
                         inventory: 'hosts',
                         become: 'yes',
                         extraVars: [
-                            dockerVer: "${DOCKER_TAG}"
-                            dockerUser: "${DOCKER_USER}"
+                            dockerVer: "${DOCKER_TAG}",
+                            dockerUser: "${DOCKER_USER}",
                             dockerPasswd: "${DOCKER_PASS}"
                         ]
                     )   
@@ -91,8 +91,8 @@ pipeline{
                         inventory: 'hosts',
                         become: 'yes',
                         extraVars: [
-                            dockerVer: "${DOCKER_TAG}"
-                            dockerUser: "${DOCKER_USER}"
+                            dockerVer: "${DOCKER_TAG}",
+                            dockerUser: "${DOCKER_USER}",
                             dockerPasswd: "${DOCKER_PASS}"
                         ]
                     )   
