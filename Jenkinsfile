@@ -23,7 +23,7 @@ pipeline{
                 timeout(time: 10, unit: 'MINUTES')
             }
             when{
-                 expression { GITBRANCH == "dev" }
+                expression { ${GITBRANCH} == "dev" }
             }
             steps {
                 ansiblePlaybook(
