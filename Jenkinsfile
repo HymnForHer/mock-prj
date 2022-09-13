@@ -2,13 +2,13 @@ pipeline{
     agent any 
     environment {
         DOCKER_IMAGE="hymn208/mock-phase-2"
-        DOCKER_TAG="1.6"
+        DOCKER_TAG="${GIT_BRANCH.tokenize('/').pop()}-${GIT_COMMIT.substring(0,7)}"
     }
     stages{
-        stage("Build"){ 
+        stage("Build"){
+            
             steps{
                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -f Dockerfile ."
-
                 withCredentials([usernamePassword(credentialsId: 'dockerRegis', 
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
@@ -30,6 +30,9 @@ pipeline{
                     playbook: 'mainTest.yml',
                     inventory: 'hosts',
                     become: 'yes',
+                    extraVars: [
+                        dockerVer: "${DOCKER_TAG}"
+                    ]
                 )
             }
         }
