@@ -6,12 +6,9 @@ pipeline{
         GITBRANCH = "${GIT_BRANCH.tokenize('/').pop()}"
     }
     stages{
-        stage("Build - Test ENV"){
+        stage("Build"){
             options {
                 timeout(time: 10, unit: 'MINUTES')
-            }
-            when{
-                 expression { GITBRANCH == "dev" }
             }
             steps{
                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -f Dockerfile ."
@@ -19,64 +16,14 @@ pipeline{
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
-                    sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
         }
-        stage("Deploy - Test ENV"){
+        stage("Deploy"){
             options {
                 timeout(time: 10, unit: 'MINUTES')
-            }
-            when{
-                 expression { GITBRANCH == "dev" }
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
-                                                  usernameVariable: 'DOCKER_USER' , 
-                                                  passwordVariable: 'DOCKER_PASS')]) 
-                {
-                    ansiblePlaybook(
-                        credentialsId: 'TokyoKey',
-                        disableHostKeyChecking: true,
-                        installation : "Ansible",
-                        playbook: 'mainTest.yml',
-                        inventory: 'hosts',
-                        become: 'yes',
-                        extraVars: [
-                            dockerVer: "${DOCKER_TAG}",
-                            dockerUser: "${DOCKER_USER}",
-                            dockerPasswd: "${DOCKER_PASS}"
-                        ]
-                    )   
-                } 
-            }
-        }
-
-        stage("Build - Prod ENV"){
-            options {
-                timeout(time: 10, unit: 'MINUTES')
-            }
-            when{
-                 expression { GITBRANCH == "main" }
-            }
-            steps{
-                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -f Dockerfile ."
-                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
-                                                  usernameVariable: 'DOCKER_USER' , 
-                                                  passwordVariable: 'DOCKER_PASS')]) 
-                {
-                    sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
-                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                }
-            }
-        }
-        stage("Deploy - prod ENV"){
-            options {
-                timeout(time: 10, unit: 'MINUTES')
-            }
-            when{
-                 expression { GITBRANCH == "main" }
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DockerHub', 
@@ -91,15 +38,14 @@ pipeline{
                         inventory: 'hosts',
                         become: 'yes',
                         extraVars: [
+                            hostsDst: "${GITBRANCH}",
                             dockerVer: "${DOCKER_TAG}",
                             dockerUser: "${DOCKER_USER}",
                             dockerPasswd: "${DOCKER_PASS}"
                         ]
                     )   
-                }
+                }  
             }
         }
     }
 }
-
-
