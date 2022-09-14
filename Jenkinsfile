@@ -39,7 +39,9 @@ pipeline{
                         become: 'yes',
                         extraVars: [
                             hostsDst: "${GITBRANCH}",
-                            dockerVer: "${DOCKER_TAG}"
+                            dockerVer: "${DOCKER_TAG}",
+                            dockerUser: "${DOCKER_USER}",
+                            dockerPasswd: "${DOCKER_PASS}"
                         ]
                     )   
                 }  
