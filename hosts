@@ -1,7 +1,5 @@
-[prod]
+[master]
 10.0.3.201  ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
-[test]
+[dev]
 10.0.0.105 ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
-[all]
-10.0.3.201   ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
-10.0.0.105  ansible_user=ubuntu ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
