@@ -38,7 +38,7 @@ pipeline{
                         inventory: 'hosts',
                         become: 'yes',
                         extraVars: [
-                            hostsDst: "${GITBRANCH}"
+                            hostsDst: "${GITBRANCH}",
                             dockerVer: "${DOCKER_TAG}"
                         ]
                     )   
