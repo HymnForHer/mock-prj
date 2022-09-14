@@ -12,7 +12,7 @@ pipeline{
             }
             steps{
                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -f Dockerfile ."
-                withCredentials([usernamePassword(credentialsId: 'dockerRedockergis', 
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', 
                                                   usernameVariable: 'DOCKER_USER' , 
                                                   passwordVariable: 'DOCKER_PASS')]) 
                 {
